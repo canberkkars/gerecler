@@ -48,5 +48,6 @@
   }
 
 //*****ORNEK * BASLANGICI*****//
+//$kuyelikTarihi = date("d.m.Y H:i);
 echo turkcetarih_formati('j F Y',$kuyelikTarihi);
 //*****ORNEK * BITISI*****//
