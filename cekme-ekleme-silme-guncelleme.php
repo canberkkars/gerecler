@@ -22,20 +22,24 @@
 
 
 
+	//**ICERIK EKLEME
+	$query = $db->prepare("INSERT INTO urunler SET eklenecek_bir = ?, eklenecek_iki = ?");
+	$insert = $query->execute(array( $eklenecek_bir, $eklenecek_iki));
+	if($insert){
+		$last_id = $db->lastInsertId(); //SON INSERT EDILEN ID ALMA
+		echo '{"sonuc":"tamam"}';
+		echo "<script>window.location.href='./urunler.php?islem=duzenle&i=".$last_id."';</script>";
+	}else{echo '{"sonuc":"yanlis"}';}		
 
-  //**ICERIK EKLEME
-  $query = $db->prepare("INSERT INTO urunler SET eklenecek_bir = ?, eklenecek_iki = ?");
-  $insert = $query->execute(array( $eklenecek_bir, $eklenecek_iki));
-  if($insert){
-    $last_id = $db->lastInsertId(); //SON INSERT EDILEN ID ALMA
-    echo '{"sonuc":"tamam"}';
-    echo "<script>window.location.href='./urunler.php?islem=duzenle&i=".$last_id."';</script>";
-  }else{echo '{"sonuc":"yanlis"}';}
-			
+  	//**ICERIK GUNCELLEME
+	$query = $db->prepare("UPDATE urunler SET guncellenecek_bir = ?, guncellenecek_iki = ? WHERE id = ?");
+	$update = $query->execute(array($guncellenecek_bir, $guncellenecek_iki, $id));
+	if($update){
+		echo '{"sonuc":"icerik-tamam"}';
+	}else{echo '{"sonuc":"icerik-yanlis"}';}
 
-  //**ICERIK GUNCELLEME
-  $query = $db->prepare("UPDATE urunler SET guncellenecek_bir = ?, guncellenecek_iki = ? WHERE id = ?");
-  $update = $query->execute(array($guncellenecek_bir, $guncellenecek_iki, $id));
-  if($update){
-    echo '{"sonuc":"icerik-tamam"}';
-  }else{echo '{"sonuc":"icerik-yanlis"}';}
+  	//**ICERIK SILME
+	$query = $db->prepare("DELETE FROM urunler WHERE urun_id = :urun_id");
+	$delete = $query->execute(array(
+	'urun_id' => $_GET['id']
+	));
