@@ -1,4 +1,9 @@
 <?php
+  //TEKLI VERI VERI CEKIMI
+  $urunsor=$db->prepare("SELECT * FROM urunler WHERE onay IN (:onay) AND sef_link = :sef_link");
+  $urunsor->execute(array(":onay" => 1, "sef_link"=> $_GET["sef_link"]));
+  $urun=$urunsor->fetch(PDO::FETCH_ASSOC);
+
   //COKLU VERI CEKIMI VE LISTELEME
   $kategori = $db->prepare("SELECT * FROM kategoriler ORDER BY id");
   $kategori->execute();
